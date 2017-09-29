@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <style type="text/css" media="screen">
+    body {
+          padding-top: 5rem;
+        }
+        .starter-template {
+          padding: 3rem 1.5rem;
+          text-align: center;
+        }
+    
+    </style>
+    </head>
+    <body>
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">Menú</a>
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.php">Inicio <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="employees">prueba</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-success">
+                        <p>Acerca de la API:</p>
+                        <p>
+                        Para usar la API se debe realizar por petición GET a /api/salary  <br>
+                        Se debe usar "Content-Type", devuelve con XML o JSON.<br>
+                        Los parámetros GET para filtrar tienen como variable "min" y "max".
+                        </p>
+                    </div>        
+                </div>
+            </div>
+            <h1>Listado de empleados</h1>
+            <p class="text-muted">Mostrando resultados filtrados por el siguiente e-mail: <?= $email ?></p>
+            <form class="form-inline my-2 my-lg-0" action="" method="GET">
+                <div class="form-group">
+                    <label for="exampleInputEmail2">Búsqueda por email :&nbsp;</label>
+                    <input type="text" class="form-control mr-sm-2" name="email" placeholder="filtrar por email">
+                </div>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
+            <hr>
+            <table class="table table-striped">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>E-mail</th>
+                        <th>Cargo</th>
+                        <th>Salario</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($employees as $employee) : ?>
+                        <tr>
+                            <td><?= $employee['name'] ?></td>
+                            <td><?= $employee['email'] ?></td>
+                            <td><?= $employee['position'] ?></td>
+                            <td><?= $employee['salary'] ?></td>
+                            <td>
+                                <button class="btn btn-info" data-toggle="modal" data-target="#modal<?= $employee['id'] ?>">Ver más</button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+
+        </div><!-- /.container -->
+
+        <?php foreach ($employees as $employee) : ?>
+            <div class="modal fade" id="modal<?= $employee['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Datos completos</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Datos del empleado seleccionado:</p>
+                        <ul>
+                            <li><strong>Nombre:</strong> <?= $employee['name'] ?></li>
+                            <li><strong>E-mail:</strong> <?= $employee['email'] ?></li>
+                            <li><strong>Teléfono:</strong> <?= $employee['phone'] ?></li>
+                            <li><strong>Dirección:</strong> <?= $employee['address'] ?></li>
+                            <li><strong>Cargo:</strong> <?= $employee['position'] ?></li>
+                            <li><strong>Salario:</strong> <?= $employee['salary'] ?></li>
+                            <li>
+                                <strong>Skills:</strong> 
+                                <?php foreach ($employee['skills'] as $skill): ?>
+                                    <?= $skill['skill'] ?> - 
+                                <?php endforeach; ?>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+               </div>
+            </div>
+          </div>
+        </div>
+        <?php endforeach; ?>
+        <!-- jQuery first, then Tether, then Bootstrap JS. -->
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+      
+    </body>
+</html>
